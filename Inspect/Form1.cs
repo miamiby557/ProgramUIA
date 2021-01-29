@@ -607,32 +607,36 @@ namespace Inspect
 			}
 		}
 
+		private Object o = new Object();
+
 		private void PostData(Dictionary<string, object> dictionary)
         {
-			
-			try
+            lock (o)
             {
-				string url = "http://localhost:63361/postData";
-				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
-				req.Method = "POST";
-				req.Timeout = 4000;//设置请求超时时间，单位为毫秒
-				req.ContentType = "application/json";
-				byte[] data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(dictionary));
-				req.ContentLength = data.Length;
-				using (Stream reqStream = req.GetRequestStream())
+				try
 				{
-					reqStream.Write(data, 0, data.Length);
-					reqStream.Close();
+					string url = "http://localhost:63361/postData";
+					HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+					req.Method = "POST";
+					req.Timeout = 4000;//设置请求超时时间，单位为毫秒
+					req.ContentType = "application/json";
+					byte[] data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(dictionary));
+					req.ContentLength = data.Length;
+					using (Stream reqStream = req.GetRequestStream())
+					{
+						reqStream.Write(data, 0, data.Length);
+						reqStream.Close();
+						// 关闭
+						this.Close();
+						Application.Exit();
+					}
+				}
+				catch (Exception)
+				{
 					// 关闭
 					this.Close();
 					Application.Exit();
 				}
-			}
-            catch (Exception)
-            {
-				// 关闭
-				this.Close();
-				Application.Exit();
 			}
 		}
 
