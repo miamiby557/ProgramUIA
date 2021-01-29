@@ -535,6 +535,11 @@ namespace Inspect
 				AutomationElement.AutomationElementInformation current = this.CurrentElement.Current;
 				this.RootElement = this.CurrentElement;
 				this.TW = TreeWalker.ControlViewWalker;
+
+				// 上一个节点
+				AutomationElement lastElement = this.TW.GetParent(this.RootElement);
+				AutomationElement.AutomationElementInformation lastAutomationElementInformation = lastElement.Current;
+
 				while (true)
 				{
 					bool flag3 = this.TW.GetParent(this.RootElement).Equals(AutomationElement.RootElement);
@@ -544,6 +549,18 @@ namespace Inspect
 					}
 					this.RootElement = this.TW.GetParent(this.RootElement);
 				}
+
+				//  找到上一级
+				/*this.TreeView1.Nodes.Clear();
+				TreeNodeCollection treeNodeCollection = this.TreeView1.Nodes;
+				current = this.RootElement.Current;
+				this.RootNode = treeNodeCollection.Add(current.Name + " " + current.LocalizedControlType.ToString());
+				this.dic = new Dictionary<TreeNode, AutomationElement>();
+				this.dic.Add(this.RootNode, this.RootElement);
+				this.LoopElement(this.RootElement, this.RootNode);
+				*//*Console.WriteLine("parent:"+ this.dic(this.RootNode.LastNode));*/
+
+
 				string pearentName = this.RootElement.Current.Name;
 				string pearentClass = this.RootElement.Current.ClassName;
 				/*string[] sourceArray = new string[]
@@ -558,9 +575,23 @@ namespace Inspect
 					"进程:" + Conversions.ToString(current.ProcessId)
 				};
                 MessageBox.Show(Strings.Join(sourceArray, "\r\n"), "句柄信息");*/
+				Dictionary<string, object> rootParent = new Dictionary<string, object>();
+				rootParent.Add("currentName", this.RootElement.Current.Name);
+				rootParent.Add("currentClassName", this.RootElement.Current.ClassName);
+				rootParent.Add("currentNativeWindowHandle", Conversions.ToString(this.RootElement.Current.NativeWindowHandle));
+				rootParent.Add("currentProcessId", Conversions.ToString(this.RootElement.Current.ProcessId));
+				rootParent.Add("currentControlTypeProgrammaticName", this.RootElement.Current.ControlType.ProgrammaticName);
+				rootParent.Add("AutomationId", this.RootElement.Current.AutomationId);
+				Dictionary<string, object> lastParent = new Dictionary<string, object>();
+				lastParent.Add("currentName", lastAutomationElementInformation.Name);
+				lastParent.Add("currentClassName", lastAutomationElementInformation.ClassName);
+				lastParent.Add("currentNativeWindowHandle", Conversions.ToString(lastAutomationElementInformation.NativeWindowHandle));
+				lastParent.Add("currentProcessId", Conversions.ToString(lastAutomationElementInformation.ProcessId));
+				lastParent.Add("currentControlTypeProgrammaticName", lastAutomationElementInformation.ControlType.ProgrammaticName);
+				lastParent.Add("AutomationId", lastAutomationElementInformation.AutomationId);
 				Dictionary<string, object> dictionary = new Dictionary<string, object>();
-				dictionary.Add("pearentName", pearentName);
-				dictionary.Add("pearentClass", pearentClass);
+				dictionary.Add("rootParent", rootParent);
+				dictionary.Add("lastParent", lastParent);
 				dictionary.Add("currentName", current.Name);
 				dictionary.Add("currentClassName", current.ClassName);
 				dictionary.Add("currentNativeWindowHandle", Conversions.ToString(current.NativeWindowHandle));
