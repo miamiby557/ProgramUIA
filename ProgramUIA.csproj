@@ -49,6 +49,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Inspect\Module1.cs" />
+    <Compile Include="Inspect\KeyboardHook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

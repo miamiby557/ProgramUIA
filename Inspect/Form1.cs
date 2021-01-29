@@ -578,24 +578,25 @@ namespace Inspect
 
 		private void PostData(Dictionary<string, object> dictionary)
         {
-            try
+			
+			try
             {
-                string url = "http://localhost:63361/postData";
-                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
-                req.Method = "POST";
-                req.Timeout = 1000;//设置请求超时时间，单位为毫秒
-                req.ContentType = "application/json";
-                byte[] data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(dictionary));
-                req.ContentLength = data.Length;
-                using (Stream reqStream = req.GetRequestStream())
-                {
-                    reqStream.Write(data, 0, data.Length);
-                    reqStream.Close();
+				string url = "http://localhost:63361/postData";
+				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+				req.Method = "POST";
+				req.Timeout = 4000;//设置请求超时时间，单位为毫秒
+				req.ContentType = "application/json";
+				byte[] data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(dictionary));
+				req.ContentLength = data.Length;
+				using (Stream reqStream = req.GetRequestStream())
+				{
+					reqStream.Write(data, 0, data.Length);
+					reqStream.Close();
 					// 关闭
 					this.Close();
 					Application.Exit();
 				}
-            }
+			}
             catch (Exception)
             {
 				// 关闭
@@ -659,6 +660,21 @@ namespace Inspect
 			}
 		}
 
+		private void hook_KeyDown(object sender, KeyEventArgs e)
+		{
+			//  这里写具体实现
+			Console.WriteLine("按下按键" + e.KeyValue);
+			if (e.KeyValue == 27)
+			{
+				// 关闭
+				this.Close();
+				Application.Exit();
+			}
+		}
+
+		private KeyEventHandler myKeyEventHandeler = null;//按键钩子
+		private KeyboardHook k_hook = new KeyboardHook();
+
 		[DebuggerStepThrough]
 		private void InitializeComponent()
 		{
@@ -691,6 +707,10 @@ namespace Inspect
 			this.ContextMenuStrip1.ResumeLayout(false);
 			this.ContextMenuStrip2.ResumeLayout(false);
 			base.ResumeLayout(false);
+
+			myKeyEventHandeler = new KeyEventHandler(hook_KeyDown);
+			k_hook.KeyDownEvent += myKeyEventHandeler;//钩住键按下
+			k_hook.Start();//安装键盘钩子
 		}
 	}
 }
