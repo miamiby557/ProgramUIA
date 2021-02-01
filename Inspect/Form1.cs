@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
+using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -615,21 +616,30 @@ namespace Inspect
             {
 				try
 				{
-					string url = "http://localhost:63361/postData";
-					HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
-					req.Method = "POST";
-					req.Timeout = 4000;//设置请求超时时间，单位为毫秒
-					req.ContentType = "application/json";
-					byte[] data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(dictionary));
-					req.ContentLength = data.Length;
-					using (Stream reqStream = req.GetRequestStream())
-					{
-						reqStream.Write(data, 0, data.Length);
-						reqStream.Close();
-						// 关闭
-						this.Close();
-						Application.Exit();
-					}
+					/*string url = "http://localhost:63361/postData";
+                    HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+                    req.Method = "POST";
+                    req.Timeout = 4000;//设置请求超时时间，单位为毫秒
+                    req.ContentType = "application/json";
+                    byte[] data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(dictionary));
+                    req.ContentLength = data.Length;
+                    using (Stream reqStream = req.GetRequestStream())
+                    {
+                        reqStream.Write(data, 0, data.Length);
+                        reqStream.Close();
+                        // 关闭
+                        this.Close();
+                        Application.Exit();
+                    }*/
+					Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+					//连接服务器
+					socket.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 10083));
+					dictionary.Add("dataType","PROGRAM_UIA");
+					socket.Send(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(dictionary)));
+					socket.Close();
+					// 关闭
+					this.Close();
+					Application.Exit();
 				}
 				catch (Exception)
 				{

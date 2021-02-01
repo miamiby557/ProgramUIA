@@ -80,6 +80,7 @@ namespace Inspect
                 }
             }
         }
+        /*        ////////////*/
         public void Stop()
         {
             bool retKeyboard = true;
