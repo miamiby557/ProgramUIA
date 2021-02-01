@@ -602,7 +602,7 @@ namespace Inspect
 				dictionary.Add("AutomationId", current.AutomationId);
 				/*dictionary.Add("AccessKey", current.AccessKey);*/
 
-				// 截图
+				// 截图 转字符串
 				this.Rec = current.BoundingRectangle;
 				Console.WriteLine("this.Rec.Left:"+ this.Rec.Left.ToString()+ ",this.Rec.Top:"+ this.Rec.Top.ToString()+ ",this.Rec.Right:"+ this.Rec.Right.ToString()+ ",this.Rec.Bottom:"+ this.Rec.Bottom.ToString());
 				Form1.Rectangle(this.hDC, (int)Math.Round(this.Rec.Left), (int)Math.Round(this.Rec.Top), (int)Math.Round(this.Rec.Right), (int)Math.Round(this.Rec.Bottom));
