@@ -92,7 +92,7 @@ namespace Inspect
                 hKeyboardHook = 0;
             }
 
-            if (!(retKeyboard)) throw new Exception("卸载钩子失败！");
+            /*if (!(retKeyboard)) throw new Exception("卸载钩子失败！");*/
         }
         //ToAscii职能的转换指定的虚拟键码和键盘状态的相应字符或字符
         [DllImport("user32")]
