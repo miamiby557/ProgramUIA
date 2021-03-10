@@ -606,9 +606,10 @@ namespace Inspect
 				this.Rec = current.BoundingRectangle;
 				Console.WriteLine("this.Rec.Left:"+ this.Rec.Left.ToString()+ ",this.Rec.Top:"+ this.Rec.Top.ToString()+ ",this.Rec.Right:"+ this.Rec.Right.ToString()+ ",this.Rec.Bottom:"+ this.Rec.Bottom.ToString());
 				Form1.Rectangle(this.hDC, (int)Math.Round(this.Rec.Left), (int)Math.Round(this.Rec.Top), (int)Math.Round(this.Rec.Right), (int)Math.Round(this.Rec.Bottom));
-				Bitmap image = this.SaveImage((int)Math.Round(this.Rec.Left-50), (int)Math.Round(this.Rec.Top-50), (int)Math.Round(this.Rec.Right+50), (int)Math.Round(this.Rec.Bottom+50));
-				string base64FromImage = ImageUtil.GetBase64FromImage(image);
-				dictionary.Add("screenShot", base64FromImage);
+				// Bitmap image = this.SaveImage((int)Math.Round(this.Rec.Left-50), (int)Math.Round(this.Rec.Top-50), (int)Math.Round(this.Rec.Right+50), (int)Math.Round(this.Rec.Bottom+50));
+				String imagePath = this.SaveImage((int)Math.Round(this.Rec.Left-50), (int)Math.Round(this.Rec.Top-50), (int)Math.Round(this.Rec.Right+50), (int)Math.Round(this.Rec.Bottom+50));
+				// string base64FromImage = ImageUtil.GetBase64FromImage(image);
+				dictionary.Add("screenShot", imagePath);
 
 				PostData(dictionary);
 			}
@@ -619,13 +620,25 @@ namespace Inspect
 		}
 
 		// 保存截图
-		private Bitmap SaveImage(int x, int y, int width, int height)
+		/*private Bitmap SaveImage(int x, int y, int width, int height)
 		{
 			Bitmap bitmap = new Bitmap(width, height);
 			Graphics graphics = Graphics.FromImage(bitmap);
 			graphics.CopyFromScreen(x, y, 0, 0, new System.Drawing.Size(width, height));
+			string imagePath = Directory.GetCurrentDirectory() + "\\img.png";
+			Console.WriteLine("imagePath:"+ imagePath);
 			bitmap.Save("img.png", ImageFormat.Png);
 			return bitmap;
+		}*/
+		private String SaveImage(int x, int y, int width, int height)
+		{
+			Bitmap bitmap = new Bitmap(width, height);
+			Graphics graphics = Graphics.FromImage(bitmap);
+			graphics.CopyFromScreen(x, y, 0, 0, new System.Drawing.Size(width, height));
+			String imagePath = Directory.GetCurrentDirectory() + "\\img.png";
+			Console.WriteLine("imagePath:" + imagePath);
+			bitmap.Save(imagePath, ImageFormat.Png);
+			return imagePath;
 		}
 
 		private Object o = new Object();
