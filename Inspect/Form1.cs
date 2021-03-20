@@ -504,7 +504,7 @@ namespace Inspect
 				}
 				catch (ElementNotAvailableException expr_ED)
 				{
-					ProjectData.SetProjectError(expr_ED);
+					// ProjectData.SetProjectError(expr_ED);
 					ProjectData.ClearProjectError();
 				}
 			}
@@ -584,6 +584,7 @@ namespace Inspect
 				rootParent.Add("currentProcessId", Conversions.ToString(this.RootElement.Current.ProcessId));
 				rootParent.Add("currentControlTypeProgrammaticName", this.RootElement.Current.ControlType.ProgrammaticName);
 				rootParent.Add("AutomationId", this.RootElement.Current.AutomationId);
+				rootParent.Add("index", "1");
 				Dictionary<string, object> lastParent = new Dictionary<string, object>();
 				lastParent.Add("currentName", lastAutomationElementInformation.Name);
 				lastParent.Add("currentClassName", lastAutomationElementInformation.ClassName);
@@ -595,11 +596,16 @@ namespace Inspect
 				dictionary.Add("rootParent", rootParent);
 				dictionary.Add("lastParent", lastParent);
 				dictionary.Add("currentName", current.Name);
+				dictionary.Add("text", current.Name);
 				dictionary.Add("currentClassName", current.ClassName);
 				dictionary.Add("currentNativeWindowHandle", Conversions.ToString(current.NativeWindowHandle));
 				dictionary.Add("currentProcessId", Conversions.ToString(current.ProcessId));
 				dictionary.Add("currentControlTypeProgrammaticName", current.ControlType.ProgrammaticName);
 				dictionary.Add("AutomationId", current.AutomationId);
+				dictionary.Add("x", this.Rec.Left);
+				dictionary.Add("y", this.Rec.Top);
+				dictionary.Add("w", this.Rec.Right);
+				dictionary.Add("h", this.Rec.Bottom);
 				/*dictionary.Add("AccessKey", current.AccessKey);*/
 
 				// 截图 转字符串
@@ -607,7 +613,7 @@ namespace Inspect
 				Console.WriteLine("this.Rec.Left:"+ this.Rec.Left.ToString()+ ",this.Rec.Top:"+ this.Rec.Top.ToString()+ ",this.Rec.Right:"+ this.Rec.Right.ToString()+ ",this.Rec.Bottom:"+ this.Rec.Bottom.ToString());
 				Form1.Rectangle(this.hDC, (int)Math.Round(this.Rec.Left), (int)Math.Round(this.Rec.Top), (int)Math.Round(this.Rec.Right), (int)Math.Round(this.Rec.Bottom));
 				// Bitmap image = this.SaveImage((int)Math.Round(this.Rec.Left-50), (int)Math.Round(this.Rec.Top-50), (int)Math.Round(this.Rec.Right+50), (int)Math.Round(this.Rec.Bottom+50));
-				String imagePath = this.SaveImage((int)Math.Round(this.Rec.Left-50), (int)Math.Round(this.Rec.Top-50), (int)Math.Round(this.Rec.Right+50), (int)Math.Round(this.Rec.Bottom+50));
+				String imagePath = this.SaveImage((int)Math.Round(this.Rec.Left), (int)Math.Round(this.Rec.Top), (int)Math.Round(this.Rec.Right- this.Rec.Left), (int)Math.Round(this.Rec.Bottom- this.Rec.Top));
 				// string base64FromImage = ImageUtil.GetBase64FromImage(image);
 				dictionary.Add("screenShot", imagePath);
 
