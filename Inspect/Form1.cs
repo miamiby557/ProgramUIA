@@ -616,7 +616,6 @@ namespace Inspect
 				String imagePath = this.SaveImage((int)Math.Round(this.Rec.Left), (int)Math.Round(this.Rec.Top), (int)Math.Round(this.Rec.Right- this.Rec.Left), (int)Math.Round(this.Rec.Bottom- this.Rec.Top));
 				// string base64FromImage = ImageUtil.GetBase64FromImage(image);
 				dictionary.Add("screenShot", imagePath);
-
 				PostData(dictionary);
 			}
 			else
