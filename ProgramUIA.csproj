@@ -54,6 +54,7 @@
     <Compile Include="Inspect\ImageUtil.cs" />
     <Compile Include="Inspect\Module1.cs" />
     <Compile Include="Inspect\KeyboardHook.cs" />
+    <Compile Include="Inspect\MouseHookHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

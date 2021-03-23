@@ -612,7 +612,8 @@ namespace Inspect
 				this.Rec = current.BoundingRectangle;
 				Console.WriteLine("this.Rec.Left:"+ this.Rec.Left.ToString()+ ",this.Rec.Top:"+ this.Rec.Top.ToString()+ ",this.Rec.Right:"+ this.Rec.Right.ToString()+ ",this.Rec.Bottom:"+ this.Rec.Bottom.ToString());
 				Form1.Rectangle(this.hDC, (int)Math.Round(this.Rec.Left), (int)Math.Round(this.Rec.Top), (int)Math.Round(this.Rec.Right), (int)Math.Round(this.Rec.Bottom));
-				// Bitmap image = this.SaveImage((int)Math.Round(this.Rec.Left-50), (int)Math.Round(this.Rec.Top-50), (int)Math.Round(this.Rec.Right+50), (int)Math.Round(this.Rec.Bottom+50));
+				MouseHookHelper.SetCursorPos(0, 0);
+				Thread.Sleep(150);
 				String imagePath = this.SaveImage((int)Math.Round(this.Rec.Left), (int)Math.Round(this.Rec.Top), (int)Math.Round(this.Rec.Right- this.Rec.Left), (int)Math.Round(this.Rec.Bottom- this.Rec.Top));
 				// string base64FromImage = ImageUtil.GetBase64FromImage(image);
 				dictionary.Add("screenShot", imagePath);
